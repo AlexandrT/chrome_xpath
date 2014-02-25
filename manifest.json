@@ -1,17 +1,17 @@
 {
-    "name": "News parse",
-    "description": "Get xpath for element", 
-    "browser_action": {
-        "default_icon": {
-            "38": "icon.png"
-            }, 
-        "default_title": "Your Extension Popup Title", 
-        "default_popup": "getXpath.html"
-    }, 
-    "manifest_version": 2,
-    //"update_url": "http://clients2.google.com/service/update2/crx",
-    "content_security_policy": "script-src 'self' https://www.google.com; object-src 'self'",
-    "version": "0.1"
+  "name": "My Bookmarks",
+  "version": "1.1",
+  "description": "A browser action with a popup dump of all bookmarks, including search, add, edit and delete.",
+  "permissions": [
+    "tabs",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "browser_action": {
+      "default_title": "My Bookmarks",
+      "default_icon": "icon.png",
+      "default_popup": "popup.html"
+  },
+  "manifest_version": 2,
+  "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'"
 }
-
-
