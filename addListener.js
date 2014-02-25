@@ -1,12 +1,13 @@
-var ae = [];
-collection = document.getElementsByTagName("*");
+// var ae = [];
+var collection = document.getElementsByTagName("*");
 for (var i = 0; collection && collection.length && i < collection.length; i++) {
-  ae.push(collection[i]);
+  // ae.push(collection[i]);
+  collection[i].addEventListener('click', getXpath);
 }
 
-for (var i = 0; i < ae.length; i++) {
-  ae[i].addEventListener('click', getXpath);
-}
+// for (var i = 0; i < ae.length; i++) {
+  // ae[i].addEventListener('click', getXpath);
+// }
 
 
 function getXpath(event) {
@@ -14,19 +15,23 @@ function getXpath(event) {
 	var DOMelem = this;
   var partXpath = DOMelem.getAttribute("id");
   if (partXpath != null) {
-      arr.push(DOMelem.tag + "//id = " + partXpath);
+      arr.push(DOMelem.tagName + "//id = " + partXpath);
   } else {
-      partXpath = DOMelem.getAttribute("class");
-      if (partXpath != null) {
-          arr.push(DOMelem.tag + "//class = " + partXpath);
-      // } else if (typeof DOMelem.parent != "undefined") {
-          // getXpath(DOMelem.parent);
-      } else {
-          console.log("impossible parse");
-      }
+    partXpath = DOMelem.getAttribute("class");
+    if (partXpath != null) {
+        arr.push(DOMelem.tagName + "//class = " + partXpath);
+    // } else if (typeof DOMelem.parent != "undefined") {
+        // getXpath(DOMelem.parent);
+    } else {
+      console.log("impossible parse");
+    }
+    console.log(arr);
   }
-
-  console.log(arr);
+  for (var i = 0; collection && collection.length && i < collection.length; i++) {
+    // ae.push(collection[i]);
+    collection[i].removeEventListener('click', getXpath, false);
+  }
+  return false;
 }
 
 function setXpath(arr){
