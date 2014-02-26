@@ -1,18 +1,11 @@
-// var ae = [];
 var collection = document.getElementsByTagName("*");
 for (var i = 0; collection && collection.length && i < collection.length; i++) {
-  // ae.push(collection[i]);
   collection[i].addEventListener('click', getXpath);
 }
 
-// for (var i = 0; i < ae.length; i++) {
-  // ae[i].addEventListener('click', getXpath);
-// }
-
-
 function getXpath(event) {
-	var arr = [];
-	var DOMelem = this;
+  var arr = [];
+  var DOMelem = this;
   var partXpath = DOMelem.getAttribute("id");
   if (partXpath != null) {
       arr.push(DOMelem.tagName + "//id = " + partXpath);
@@ -25,17 +18,16 @@ function getXpath(event) {
     } else {
       console.log("impossible parse");
     }
-    console.log(arr);
   }
   for (var i = 0; collection && collection.length && i < collection.length; i++) {
-    // ae.push(collection[i]);
     collection[i].removeEventListener('click', getXpath, false);
   }
-  return false;
+  // console.log(arr);
+  window.fullXpath = arr.join();
+  console.log(window.fullXpath);
 }
 
-function setXpath(arr){
-  var xpath = arr.join();
-  console.log(xpath);
-  $("#xpath-field").val(xpath);
-}
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
+  // chrome.tabs.sendMessage(sender.id, "response");
+  chrome.runtime.sendMessage(sender.id, window.fullXpath);
+});
