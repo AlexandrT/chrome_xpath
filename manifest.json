@@ -40,6 +40,8 @@
     }
   },
   
+"options_page": "options.html",
+
   "manifest_version": 2,
   "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'"
 }
