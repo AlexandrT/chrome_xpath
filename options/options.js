@@ -37,16 +37,18 @@ function load_options() {
 			var li = document.createElement("LI");
 
 			var field = document.createElement("SPAN");
-			var button = document.createElement("BUTTON");
+		var button = document.createElement("BUTTON");
+		// var input = document.createElement("INPUT");
 
-			field.innerHTML = arr[i];
-			button.innerHTML = 'remove';
-			button.setAttribute('class', 'remove');
-			// button.setAttribute('onclick', 'remove_field');
+		field.innerHTML = arr[i];
+		button.innerHTML = 'remove';
+		button.setAttribute('class', 'remove');
+		// input.setAttribute('type', 'text');
 
-			listOfFields.appendChild(li);
-			li.appendChild(field);
-			li.appendChild(button);
+		listOfFields.appendChild(li);
+		li.appendChild(field);
+		// li.appendChild(input);
+		li.appendChild(button);
 		}
 
 		var tempArray = document.querySelectorAll('.remove')
@@ -71,14 +73,16 @@ function add_field() {
 
 		var field = document.createElement("SPAN");
 		var button = document.createElement("BUTTON");
+		// var input = document.createElement("INPUT");
 
 		field.innerHTML = fieldName;
 		button.innerHTML = 'remove';
 		button.setAttribute('class', 'remove');
-		// button.setAttribute('onclick', 'remove_field');
+		// input.setAttribute('type', 'text');
 
 		listOfFields.appendChild(li);
 		li.appendChild(field);
+		// li.appendChild(input);
 		li.appendChild(button);
 
 		var tempArray = document.querySelectorAll('.remove')

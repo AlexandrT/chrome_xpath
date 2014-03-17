@@ -4,7 +4,7 @@ port.onMessage.addListener(function(msg){
   console.log(msg);
 })
 
-function addListener(){
+function foo(){
   var collection = document.getElementsByTagName("*");
     for (var i = 0; collection && collection.length && i < collection.length; i++) {
       collection[i].addEventListener('click', getXpath);
@@ -32,6 +32,7 @@ function addListener(){
 
     fullXpath = attrForXpath.join();
     console.log(fullXpath);
+    console.log(Date.now());
     port.postMessage(fullXpath);
   }
 }

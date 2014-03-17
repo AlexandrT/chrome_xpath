@@ -1,31 +1,12 @@
-// function save_options() {
-// 	var listOfFields = document.querySelector('#fields').getElementsByTagName('span');
-// 	var srvAddress = document.querySelector('#remote-srv').value.trim();
-
-// 	var fieldNames = [];
-// 	for (var i = 0; i < listOfFields.length; i++) {
-// 		fieldNames.push(listOfFields[i].textContent);
-// 	}
-
-// 	if (fieldNames.length != 0 || srvAddress != "") {
-// 		localStorage["mk_news_srv"] = srvAddress;
-// 		localStorage["mk_news_fields"] = fieldNames;
-
-// 		document.querySelector('#status').innerHTML = 'Options saved';
-// 	} else {
-// 		document.querySelector('#status').innerHTML = 'Nothing to save';
-// 	}
-// }
-
 function send() {
 	var listOfFields = document.querySelector('#fields').getElementsByTagName('span');
 	var srvAddress = document.querySelector('#remote-srv').value.trim();
 
 	var fieldNames = {};
 	for (var i = 0; i < listOfFields.length; i++) {
-		var key = listOfFields.parentNode.innerText;
+		var key = listOfFields[i].innerText;
 		console.log(key);
-		fieldNames[key] = listOfFields[i].innerText;
+		fieldNames[key] = listOfFields[i].nextSibling.innerText;
 	}
 
 	console.log(fieldNames);
@@ -68,20 +49,32 @@ function load_options() {
 
 			var field = document.createElement("SPAN");
 			var button = document.createElement("BUTTON");
+			var buttonParse = document.createElement("BUTTON");
+			var input = document.createElement("INPUT");
 
 			field.innerHTML = fieldNames[i];
 			button.innerHTML = 'remove';
 			button.setAttribute('class', 'remove');
+			buttonParse.innerHTML = 'parse';
+			buttonParse.setAttribute('class', 'parse');
+			input.setAttribute('type', 'text');
 
 			listOfFields.appendChild(li);
 			li.appendChild(field);
+			li.appendChild(input);
 			li.appendChild(button);
+			li.appendChild(buttonParse);
 		}
 
 		// hack for addListener on remove-buttons
 		var removeButtons = document.querySelectorAll('.remove')
 		for (var j = 0; j < removeButtons.length; j++) {
 			removeButtons[j].addEventListener('click', remove_field);
+		}
+
+		var parseButtons = document.querySelectorAll('.parse')
+		for (var j = 0; j < parseButtons.length; j++) {
+			parseButtons[j].addEventListener('click', parse);
 		}
 
 	}
@@ -101,18 +94,30 @@ function add_field() {
 
 		var field = document.createElement("SPAN");
 		var button = document.createElement("BUTTON");
+		var buttonParse = document.createElement("BUTTON");
+		var input = document.createElement("INPUT");
 
 		field.innerHTML = fieldName;
 		button.innerHTML = 'remove';
 		button.setAttribute('class', 'remove');
+		buttonParse.innerHTML = 'parse';
+		buttonParse.setAttribute('class', 'parse');
+		input.setAttribute('type', 'text');
 
 		listOfFields.appendChild(li);
 		li.appendChild(field);
+		li.appendChild(input);
 		li.appendChild(button);
+		li.appendChild(buttonParse);
 
 		var tempArray = document.querySelectorAll('.remove')
 		for (var i = 0; i < tempArray.length; i++) {
 			tempArray[i].addEventListener('click', remove_field);
+		}
+
+		var parseBtn = document.querySelectorAll('.parse')
+		for (var j = 0; j < parseBtn.length; j++) {
+			parseBtn[j].addEventListener('click', parse);
 		}
 
 	} else {
@@ -139,6 +144,11 @@ function remove_field(){
 	var listOfFields = document.querySelector('#fields');
 
 	listOfFields.removeChild(elem.parentNode);
+}
+
+function parse() {
+	var bgPage = chrome.extension.getBackgroundPage();
+	var res = bgPage.parsePage();
 }
 
 document.addEventListener('DOMContentLoaded', load_options);
