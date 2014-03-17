@@ -4,12 +4,12 @@ function save_options() {
 
 	var arr = [];
 	for (var i = 0; i < listOfFields.length; i++) {
-		arr.push(listOfFields[i].textContent);
+		arr.push(listOfFields[i].innerText);
 	}
 
 	/*var arr = {};
 	for (var i = 0; i < listOfFields.length; i++) {
-		arr.push(listOfFields[i].textContent);
+		arr.push(listOfFields[i].innerText);
 	}*/
 
 	if (arr.length != 0 || srvAddress != "") {
@@ -96,7 +96,7 @@ function add_field() {
 		}
 
 		for (var i = 0; i < arrayOfFields.length; i++) {
-			if (arrayOfFields[i].textContent == field) {
+			if (arrayOfFields[i].innerText == field) {
 				return false;
 			}
 		}

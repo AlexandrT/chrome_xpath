@@ -1,20 +1,56 @@
-function save_options() {
+// function save_options() {
+// 	var listOfFields = document.querySelector('#fields').getElementsByTagName('span');
+// 	var srvAddress = document.querySelector('#remote-srv').value.trim();
+
+// 	var fieldNames = [];
+// 	for (var i = 0; i < listOfFields.length; i++) {
+// 		fieldNames.push(listOfFields[i].textContent);
+// 	}
+
+// 	if (fieldNames.length != 0 || srvAddress != "") {
+// 		localStorage["mk_news_srv"] = srvAddress;
+// 		localStorage["mk_news_fields"] = fieldNames;
+
+// 		document.querySelector('#status').innerHTML = 'Options saved';
+// 	} else {
+// 		document.querySelector('#status').innerHTML = 'Nothing to save';
+// 	}
+// }
+
+function send() {
 	var listOfFields = document.querySelector('#fields').getElementsByTagName('span');
 	var srvAddress = document.querySelector('#remote-srv').value.trim();
 
-	var fieldNames = [];
+	var fieldNames = {};
 	for (var i = 0; i < listOfFields.length; i++) {
-		fieldNames.push(listOfFields[i].textContent);
+		var key = listOfFields.parentNode.innerText;
+		console.log(key);
+		fieldNames[key] = listOfFields[i].innerText;
 	}
 
-	if (fieldNames.length != 0 || srvAddress != "") {
-		localStorage["mk_news_srv"] = srvAddress;
-		localStorage["mk_news_fields"] = fieldNames;
+	console.log(fieldNames);
 
-		document.querySelector('#status').innerHTML = 'Options saved';
-	} else {
-		document.querySelector('#status').innerHTML = 'Nothing to save';
-	}
+	var params = JSON.stringify(fieldNames);
+	console.log("JSON");
+	console.log(params);
+
+	var xhr = new XMLHttpRequest();
+
+	xhr.open("POST", srvAddress, true);
+	xhr.setRequestHeader("Content-type", "application/json");
+	// xhr.onreadystatechange = function() {
+		/*if (xhr.readystate == 4 && xhr.status == 200) {
+			if (xhr.responseText != null) {
+				console.log();
+			} else {
+				console.log("request failed");
+			}
+		}*/
+		// console.log(xhr.responseText);
+	// }
+	// xhr.send(params);
+	xhr.send();
+
 }
 
 function load_options() {
@@ -89,7 +125,7 @@ function add_field() {
 		}
 
 		for (var i = 0; i < arrayOfFields.length; i++) {
-			if (arrayOfFields[i].textContent == field) {
+			if (arrayOfFields[i].innerText == field) {
 				return false;
 			}
 		}
@@ -106,5 +142,5 @@ function remove_field(){
 }
 
 document.addEventListener('DOMContentLoaded', load_options);
-document.querySelector('#save').addEventListener('click', save_options);
+document.querySelector('#send').addEventListener('click', send);
 document.querySelector('#add-field').addEventListener('click', add_field);
