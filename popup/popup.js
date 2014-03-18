@@ -147,8 +147,8 @@ function remove_field(){
 }
 
 function parse() {
-	var bgPage = chrome.extension.getBackgroundPage();
-	var res = bgPage.parsePage();
+	var bg_wnd = chrome.extension.getBackgroundPage();
+	var result = bg_wnd.bgObj.pageParse();
 }
 
 document.addEventListener('DOMContentLoaded', load_options);
