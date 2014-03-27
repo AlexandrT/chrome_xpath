@@ -1,18 +1,5 @@
 $(window).load(function() {
   console.log("window load");
-  
-
-  /*window.bgObj = function() {
-    console.log(window);
-  }
-
-  window.bgObj.prototype = {
-    pageParse: function() {
-      alert("page parse");
-    }
-  }*/
-
-
 
   // chrome.tabs.onActivated.addListener
   chrome.tabs.onUpdated.addListener(function(tabId, tabInfo, tab){
@@ -23,17 +10,19 @@ $(window).load(function() {
       port.onMessage.addListener(function(msg){
         console.log("message from content script");
         console.log(msg);
+        //get xpath. set some type for message. if message considered this, set property for window.bgObj
+        // may be save all hash in window.bgOdj?
       });
     });
 
-
     window.bgObj = {
       pageParse: function() {
-        // alert("ddd");
-        chrome.tabs.executeScript(tabId, { code: "foo()" })
-      }
-    }
+        chrome.tabs.executeScript(tabId, { code: "foo()" });
+      },
 
+      //srv: chrome.storage.local.get("mk_news_srv"),
+      //fields: chrome.storage.local.get("mk_news_fields")
+    };
 
     console.log("change active tab");
     console.log(tabId);
@@ -41,6 +30,15 @@ $(window).load(function() {
     chrome.commands.onCommand.addListener(function(command) {
       console.log('Command:', command);
       chrome.tabs.executeScript(tabId, { code: "foo()" })
+    });
+
+    chrome.storage.onChanged.addListener(function(changes, namespace) {
+      for (key in changes) {
+        var storageChange = changes[key];
+        console.log('storage key "%s" in namespace "%s" changed', key, namespace);
+        console.log(storageChange.oldValue);
+        console.log(storageChange.newValue);
+      }
     });
   })
 })

@@ -8,8 +8,8 @@ function save_options() {
 	}
 
 	if (fieldNames.length != 0 || srvAddress != "") {
-		localStorage["mk_news_srv"] = srvAddress;
-		localStorage["mk_news_fields"] = fieldNames;
+		chrome.storage.local.set({"mk_news_srv": srvAddress});
+		chrome.storage.local.set({"mk_news_fields": fieldNames});
 
 		document.querySelector('#status').innerHTML = 'Options saved';
 	} else {
@@ -18,8 +18,8 @@ function save_options() {
 }
 
 function load_options() {
-	var fields = localStorage["mk_news_fields"];
-	var srv = localStorage["mk_news_srv"];
+	var fields = chrome.storage.local.get("mk_news_fields");
+	var srv = chrome.storage.local.get("mk_news_srv");
 
 	document.querySelector('#remote-srv').value = srv;
 	var fieldNames = fields.split(",");

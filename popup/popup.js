@@ -35,8 +35,8 @@ function send() {
 }
 
 function load_options() {
-	var fields = localStorage["mk_news_fields"];
-	var srv = localStorage["mk_news_srv"];
+	var fields = chrome.storage.local.get("mk_news_fields");
+	var srv = chrome.storage.local.get("mk_news_srv");
 
 	document.querySelector('#remote-srv').value = srv;
 	var fieldNames = fields.split(",");

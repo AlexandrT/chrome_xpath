@@ -13,9 +13,8 @@ function save_options() {
 	}*/
 
 	if (arr.length != 0 || srvAddress != "") {
-		localStorage["mk_news_srv"] = srvAddress;
-		// localStorage["mk_news_fields"] = JSON.stringify(arr);
-		localStorage["mk_news_fields"] = arr;
+		chrome.storage.local.set({"mk_news_srv": srvAddress});
+		chrome.storage.local.set({"mk_news_fields": arr});
 
 		document.querySelector('#status').innerHTML = 'Options saved';
 	} else {
@@ -24,8 +23,8 @@ function save_options() {
 }
 
 function load_options() {
-	var fields = localStorage["mk_news_fields"];
-	var srv = localStorage["mk_news_srv"];
+	var fields = chrome.storage.local.get("mk_news_fields");
+	var srv = chrome.storage.local.get("mk_news_srv");
 
 	document.querySelector('#remote-srv').value = srv;
 	var arr = fields.split(",");
@@ -37,18 +36,18 @@ function load_options() {
 			var li = document.createElement("LI");
 
 			var field = document.createElement("SPAN");
-		var button = document.createElement("BUTTON");
-		// var input = document.createElement("INPUT");
+			var button = document.createElement("BUTTON");
+			// var input = document.createElement("INPUT");
 
-		field.innerHTML = arr[i];
-		button.innerHTML = 'remove';
-		button.setAttribute('class', 'remove');
-		// input.setAttribute('type', 'text');
+			field.innerHTML = arr[i];
+			button.innerHTML = 'remove';
+			button.setAttribute('class', 'remove');
+			// input.setAttribute('type', 'text');
 
-		listOfFields.appendChild(li);
-		li.appendChild(field);
-		// li.appendChild(input);
-		li.appendChild(button);
+			listOfFields.appendChild(li);
+			li.appendChild(field);
+			// li.appendChild(input);
+			li.appendChild(button);
 		}
 
 		var tempArray = document.querySelectorAll('.remove')
