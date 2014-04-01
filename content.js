@@ -5,30 +5,26 @@ port.onMessage.addListener(function(msg){
 })
 
 function foo(){
-  var collection = document.getElementsByTagName("*");
-    for (var i = 0; collection && collection.length && i < collection.length; i++) {
-      collection[i].addEventListener('click', getXpath);
-    }
+  $("*").on('click', getXpath);
 
   function getXpath(event) {
     var attrForXpath = [];
-    var DOMelem = this;
-    var partXpath = DOMelem.getAttribute("id");
+    var $DOMelem = $(this);
+    var partXpath = $DOMelem.attr("id");
     if (partXpath != null) {
-        attrForXpath.push(DOMelem.tagName + "//id = " + partXpath);
+        attrForXpath.push($DOMelem.prop("tagName") + "//id = " + partXpath);
     } else {
-      partXpath = DOMelem.getAttribute("class");
+      partXpath = $DOMelem.attr("class");
       if (partXpath != null) {
-          attrForXpath.push(DOMelem.tagName + "//class = " + partXpath);
+          attrForXpath.push($DOMelem.prop("tagName") + "//class = " + partXpath);
       // } else if (typeof DOMelem.parent != "undefined") {
           // getXpath(DOMelem.parent);
       } else {
         console.log("impossible parse");
       }
     }
-    for (var i = 0; collection && collection.length && i < collection.length; i++) {
-      collection[i].removeEventListener('click', getXpath, false);
-    }
+
+    $("*").off('click', getXpath);
 
     fullXpath = attrForXpath.join();
     console.log(fullXpath);

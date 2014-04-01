@@ -1,6 +1,6 @@
 function send() {
-	var listOfFields = document.querySelector('#fields').getElementsByTagName('span');
-	var srvAddress = document.querySelector('#remote-srv').value.trim();
+	var listOfFields = $('#fields > span');
+	var srvAddress = $('#remote-srv').val().trim();
 
 	var fieldNames = {};
 	for (var i = 0; i < listOfFields.length; i++) {
@@ -35,93 +35,78 @@ function send() {
 }
 
 function load_options() {
-	var fields = chrome.storage.local.get("mk_news_fields");
-	var srv = chrome.storage.local.get("mk_news_srv");
+	chrome.storage.local.get("mk_news_fields", function(result) {
+		var fields = result;
+	});
 
-	document.querySelector('#remote-srv').value = srv;
-	var fieldNames = fields.split(",");
+	chrome.storage.local.get("mk_news_srv", function(result) {
+		var srv = result;
+	});
+
+	$('#remote-srv').val(srv);
 
 	if (fields != "") {
-		var listOfFields = document.querySelector('#fields');
 
-		for (var i = 0; i < fieldNames.length; i++) {
-			var li = document.createElement("LI");
+		for (var i = 0; i < fields.length; i++) {
+			var li = $("<li></li>").appendTo("fields");
 
-			var field = document.createElement("SPAN");
-			var button = document.createElement("BUTTON");
-			var buttonParse = document.createElement("BUTTON");
-			var input = document.createElement("INPUT");
+			$("<span></span>", { 
+				html: fields[i] 
+			}).appendTo(li);
+			
+			$("<button/>")
+				.html("remove")
+				.addClass("remove")
+				.on('click', remove_field)
+			).appendTo(li);
 
-			field.innerHTML = fieldNames[i];
-			button.innerHTML = 'remove';
-			button.setAttribute('class', 'remove');
-			buttonParse.innerHTML = 'parse';
-			buttonParse.setAttribute('class', 'parse');
-			input.setAttribute('type', 'text');
+			$("<button/>")
+				.html("parse")
+				.addClass("parse")
+				.on('click', parse)
+			).appendTo(li);
 
-			listOfFields.appendChild(li);
-			li.appendChild(field);
-			li.appendChild(input);
-			li.appendChild(button);
-			li.appendChild(buttonParse);
+			$("<input/>")
+				.attr('type', 'text')
+			).appendTo(li);
 		}
-
-		// hack for addListener on remove-buttons
-		var removeButtons = document.querySelectorAll('.remove')
-		for (var j = 0; j < removeButtons.length; j++) {
-			removeButtons[j].addEventListener('click', remove_field);
-		}
-
-		var parseButtons = document.querySelectorAll('.parse')
-		for (var j = 0; j < parseButtons.length; j++) {
-			parseButtons[j].addEventListener('click', parse);
-		}
-
 	}
 }
 
 function add_field() {
-	var fieldName = document.querySelector('#field-name').value.trim();
-	var listOfFields = document.querySelector('#fields');
+	var fieldName = $('#field-name').val().trim();
+	var listOfFields = $('#fields');
 
 	if (fieldName == "") {
-		document.querySelector('#status').innerHTML = 'Field with name is empty';
+		$('#status').html('Field with name is empty');
 		return false;
 	}
 
-	if (isUniq(listOfFields.getElementsByTagName('span'), fieldName)) {
-		var li = document.createElement("LI");
+	if (isUniq($('#fields > span'), fieldName)) {
+		var li = $("<li></li>").appendTo("fields");
 
-		var field = document.createElement("SPAN");
-		var button = document.createElement("BUTTON");
-		var buttonParse = document.createElement("BUTTON");
-		var input = document.createElement("INPUT");
+		$("<span></span>", { 
+				html: fields[i] 
+			}).appendTo(li);
+			
+			$("<button/>")
+				.html("remove")
+				.addClass("remove")
+				.on('click', remove_field)
+			).appendTo(li);
 
-		field.innerHTML = fieldName;
-		button.innerHTML = 'remove';
-		button.setAttribute('class', 'remove');
-		buttonParse.innerHTML = 'parse';
-		buttonParse.setAttribute('class', 'parse');
-		input.setAttribute('type', 'text');
+			$("<button/>")
+				.html("parse")
+				.addClass("parse")
+				.on('click', parse)
+			).appendTo(li);
 
-		listOfFields.appendChild(li);
-		li.appendChild(field);
-		li.appendChild(input);
-		li.appendChild(button);
-		li.appendChild(buttonParse);
-
-		var tempArray = document.querySelectorAll('.remove')
-		for (var i = 0; i < tempArray.length; i++) {
-			tempArray[i].addEventListener('click', remove_field);
-		}
-
-		var parseBtn = document.querySelectorAll('.parse')
-		for (var j = 0; j < parseBtn.length; j++) {
-			parseBtn[j].addEventListener('click', parse);
-		}
+			$("<input/>")
+				.attr('type', 'text')
+			).appendTo(li);
 
 	} else {
-		document.querySelector('#status').innerHTML = 'Field with this name already exists';
+		$('#status').html('Field with this name already exists');
 	}
 
 	function isUniq(arrayOfFields, field) {
@@ -152,5 +137,5 @@ function parse() {
 }
 
 document.addEventListener('DOMContentLoaded', load_options);
-document.querySelector('#send').addEventListener('click', send);
-document.querySelector('#add-field').addEventListener('click', add_field);
+$('#send').on('click', send);
+$('#add-field').on('click', add_field);

@@ -1,96 +1,75 @@
 function save_options() {
-	var listOfFields = document.querySelector('#fields').getElementsByTagName('span');
-	var srvAddress = document.querySelector('#remote-srv').value.trim();
+	var listOfFields = $('#fields > span');
+	var srvAddress = $('#remote-srv').val().trim();
 
 	var arr = [];
 	for (var i = 0; i < listOfFields.length; i++) {
 		arr.push(listOfFields[i].innerText);
 	}
 
-	/*var arr = {};
-	for (var i = 0; i < listOfFields.length; i++) {
-		arr.push(listOfFields[i].innerText);
-	}*/
-
 	if (arr.length != 0 || srvAddress != "") {
 		chrome.storage.local.set({"mk_news_srv": srvAddress});
 		chrome.storage.local.set({"mk_news_fields": arr});
 
-		document.querySelector('#status').innerHTML = 'Options saved';
+		$('#status').html('Options saved');
 	} else {
-		document.querySelector('#status').innerHTML = 'Nothing to save';
+		$('#status').html('Nothing to save');
 	}
 }
 
 function load_options() {
-	var fields = chrome.storage.local.get("mk_news_fields");
-	var srv = chrome.storage.local.get("mk_news_srv");
+	chrome.storage.local.get("mk_news_fields", function(result) {
+		var fields = result;
+	});
+	chrome.storage.local.get("mk_news_srv", function(result) {
+		var srv = result;
+	});
 
-	document.querySelector('#remote-srv').value = srv;
-	var arr = fields.split(",");
+	$('#remote-srv').val(srv);
+	
+	if (fields !== undefined) {
+		var listOfFields = $('#fields');
 
-	if (fields != "") {
-		var listOfFields = document.querySelector('#fields');
+		for (var i = 0; i < fields.length; i++) {
 
-		for (var i = 0; i < arr.length; i++) {
-			var li = document.createElement("LI");
+			var li = $("<li></li>").appendTo("fields");
 
-			var field = document.createElement("SPAN");
-			var button = document.createElement("BUTTON");
-			// var input = document.createElement("INPUT");
-
-			field.innerHTML = arr[i];
-			button.innerHTML = 'remove';
-			button.setAttribute('class', 'remove');
-			// input.setAttribute('type', 'text');
-
-			listOfFields.appendChild(li);
-			li.appendChild(field);
-			// li.appendChild(input);
-			li.appendChild(button);
+			$("<span></span>", { 
+				html: fields[i] 
+			}).appendTo(li);
+			
+			$("<button/>")
+				.html("remove")
+				.addClass("remove")
+				.on('click', remove_field)
+			).appendTo(li);
 		}
-
-		var tempArray = document.querySelectorAll('.remove')
-		for (var j = 0; j < tempArray.length; j++) {
-			tempArray[j].addEventListener('click', remove_field);
-		}
-
 	}
 }
 
 function add_field() {
-	var fieldName = document.querySelector('#field-name').value.trim();
-	var listOfFields = document.querySelector('#fields');
+	var fieldName = $('#field-name').val().trim();
+	var $listOfFields = $('#fields');
 
 	if (fieldName == "") {
-		document.querySelector('#status').innerHTML = 'Field with name is empty';
+		$('#status').html('Field with name is empty');
 		return false;
 	}
 
-	if (isUniq(listOfFields.getElementsByTagName('span'), fieldName)) {
-		var li = document.createElement("LI");
+	if (isUniq($listOfFields.attr('span'), fieldName)) {
+		var li = $("<li></li>").appendTo("fields");
 
-		var field = document.createElement("SPAN");
-		var button = document.createElement("BUTTON");
-		// var input = document.createElement("INPUT");
-
-		field.innerHTML = fieldName;
-		button.innerHTML = 'remove';
-		button.setAttribute('class', 'remove');
-		// input.setAttribute('type', 'text');
-
-		listOfFields.appendChild(li);
-		li.appendChild(field);
-		// li.appendChild(input);
-		li.appendChild(button);
-
-		var tempArray = document.querySelectorAll('.remove')
-		for (var i = 0; i < tempArray.length; i++) {
-			tempArray[i].addEventListener('click', remove_field);
-		}
-
+		$("<span></span>", { 
+				html: fieldName 
+			}).appendTo(li);
+			
+			$("<button/>")
+				.html("remove")
+				.addClass("remove")
+				.on('click', remove_field)
+			).appendTo(li);
 	} else {
-		document.querySelector('#status').innerHTML = 'Field with this name already exists';
+		$('#status').html('Field with this name already exists');
 	}
 
 	function isUniq(arrayOfFields, field) {
@@ -116,5 +95,5 @@ function remove_field(){
 }
 
 document.addEventListener('DOMContentLoaded', load_options);
-document.querySelector('#save').addEventListener('click', save_options);
-document.querySelector('#add-field').addEventListener('click', add_field);
+$('#save').on('click', save_options);
+$('#add-field').on('click', add_field);
