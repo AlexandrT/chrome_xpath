@@ -14,3 +14,4 @@
 /.sublime-project
 /Vagrantfile
 /*.lock
+/vendor
