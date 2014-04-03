@@ -33,44 +33,11 @@
 	xhr.send();
 }*/
 
-function load_options() {
-	chrome.storage.local.get("mk_news_fields", function(result) {
-		var fields = result;
-	});
-	chrome.storage.local.get("mk_news_srv", function(result) {
-		var srv = result;
-	});
-
-	$('#remote-srv').val(srv);
-
-	if (fields !== undefined) {
-
-		for (var i = 0; i < fields.length; i++) {
-			add_element("popup", fields[i]);
-		}
-	}
-}
-
-function add_field() {
-	var fieldName = $('#field-name').val().trim();
-
-	if (fieldName == "") {
-		$('#status').html('Field with name is empty');
-		return false;
-	}
-
-	if ($.inArray(fieldName, $('#fields > span')) < 0) {
-		add_element("popup", fieldName);
-	} else {
-		$('#status').html('Field with this name already exists');
-	}
-}
-
 function parse() {
 	var bg_wnd = chrome.extension.getBackgroundPage();
 	var result = bg_wnd.bgObj.pageParse();
 }
 
-document.addEventListener('DOMContentLoaded', load_options);
+document.addEventListener('DOMContentLoaded', load_options("popup"));
 $('#send').on('click', send);
-$('#add-field').on('click', add_field);
+$('#add-field').on('click', add_field("popup"));
