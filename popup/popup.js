@@ -40,4 +40,4 @@ function parse() {
 
 document.addEventListener('DOMContentLoaded', load_options("popup"));
 $('#send').on('click', send);
-$('#add-field').on('click', add_field("popup"));
+$('#add-field').on('click', function(){add_field("popup")});
