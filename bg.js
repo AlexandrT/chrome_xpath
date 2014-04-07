@@ -1,5 +1,4 @@
 $(window).load(function() {
-  console.log("window load");
 
   // chrome.tabs.onActivated.addListener
   chrome.tabs.onUpdated.addListener(function(tabId, tabInfo, tab){
@@ -10,6 +9,7 @@ $(window).load(function() {
       port.onMessage.addListener(function(msg){
         console.log("message from content script");
         console.log(msg);
+        window.bgObj.xpath = msg;
         //get xpath. set some type for message. if message considered this, set property for window.bgObj
         // may be save all hash in window.bgOdj?
       });
@@ -19,13 +19,11 @@ $(window).load(function() {
       pageParse: function() {
         chrome.tabs.executeScript(tabId, { code: "foo()" });
       },
+      xpath: ""
 
       //srv: chrome.storage.local.get("mk_news_srv"),
       //fields: chrome.storage.local.get("mk_news_fields")
     };
-
-    console.log("change active tab");
-    console.log(tabId);
 
     chrome.commands.onCommand.addListener(function(command) {
       console.log('Command:', command);

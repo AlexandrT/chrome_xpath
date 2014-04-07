@@ -33,9 +33,12 @@
 	xhr.send();
 }*/
 
-function parse() {
+function parse(target) {
 	var bg_wnd = chrome.extension.getBackgroundPage();
 	var result = bg_wnd.bgObj.pageParse();
+	var callerId = target.currentTarget.parentElement.id;
+	var targetInput = '#' + callerId + ' input';
+	$(targetInput).val(bg_wnd.bgObj.xpath);
 }
 
 document.addEventListener('DOMContentLoaded', load_options("popup"));

@@ -19,11 +19,11 @@ function load_options(type) {
 }
 
 function add_element(type, spanValue) {
-  var li = $("<li></li>").appendTo("#fields");
+  var li = $("<li></li>").attr('id', spanValue).appendTo("#fields");
 
-	$("<span></span>", { 
-		html: spanValue 
-	}).appendTo(li);
+	$("<span></span>") 
+		.html(spanValue) 
+	.appendTo(li);
 			
 	$("<button/>")
 		.html("remove")
