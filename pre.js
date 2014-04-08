@@ -43,3 +43,35 @@ function add_element(type, spanValue) {
 		.appendTo(li);
 	}
 }
+
+function init_fields() {
+	var bg_wnd = chrome.extension.getBackgroundPage();
+	// var result = bg_wnd.bgObj.pageParse();
+
+	var fields = bg_wnd.bgObj.fields;
+
+	$.each(fields, function(key, value) {
+		var li = $("<li></li>").attr('id', key).appendTo("#fields");
+	
+		$("<span></span>") 
+			.html(key) 
+		.appendTo(li);
+				
+		$("<button/>")
+			.html("remove")
+			.addClass("remove")
+			.on('click', remove_field)
+		.appendTo(li);
+		
+		$("<button/>")
+		  .html("parse")
+			.addClass("parse")
+			.on('click', parse)
+			.appendTo(li);
+	
+			$("<input/>")
+				.attr('type', 'text')
+				.val(value)
+			.appendTo(li);
+	})
+}
