@@ -33,8 +33,10 @@
 	xhr.send();
 }*/
 
-function parse(target) {
+function parse(event) {
 	var bg_wnd = chrome.extension.getBackgroundPage();
+	bg_wnd.bgObj.activeField = event.target.parentElement.id;
+	
 	var result = bg_wnd.bgObj.pageParse();
 }
 

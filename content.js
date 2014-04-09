@@ -11,8 +11,7 @@ function foo(){
 function getXpath(event) {
   var attrForXpath = [];
   var DOMelem = $(this);
-  // var $DOMelem = target;
-  var partXpath = DOMelem.attr("id"); //если такого атрибута нет - исключение падает
+  var partXpath = DOMelem.attr("id");
   if (partXpath != null) {
     attrForXpath.push("//" + DOMelem.prop("tagName") + "[@id='" + partXpath + "']");
   } else {

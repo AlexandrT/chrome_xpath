@@ -46,32 +46,36 @@ function add_element(type, spanValue) {
 
 function init_fields() {
 	var bg_wnd = chrome.extension.getBackgroundPage();
-	// var result = bg_wnd.bgObj.pageParse();
 
-	var fields = bg_wnd.bgObj.fields;
+	if (typeof bg_wnd.bgObj.fields !== 'undefined') {
+		var fields = bg_wnd.bgObj.fields;
+		console.log(fields);
 
-	$.each(fields, function(key, value) {
-		var li = $("<li></li>").attr('id', key).appendTo("#fields");
-	
-		$("<span></span>") 
-			.html(key) 
-		.appendTo(li);
-				
-		$("<button/>")
-			.html("remove")
-			.addClass("remove")
-			.on('click', remove_field)
-		.appendTo(li);
+		$.each(fields, function(key, value) {
+			var li = $("<li></li>").attr('id', key).appendTo("#fields");
 		
-		$("<button/>")
-		  .html("parse")
-			.addClass("parse")
-			.on('click', parse)
+			console.log('key "%s" value "%s"', key, value);
+
+			$("<span></span>") 
+				.html(key) 
 			.appendTo(li);
-	
-			$("<input/>")
-				.attr('type', 'text')
-				.val(value)
+					
+			$("<button/>")
+				.html("remove")
+				.addClass("remove")
+				.on('click', remove_field)
 			.appendTo(li);
-	})
+			
+			$("<button/>")
+			  .html("parse")
+				.addClass("parse")
+				.on('click', parse)
+				.appendTo(li);
+		
+				$("<input/>")
+					.attr('type', 'text')
+					.val(value)
+				.appendTo(li);
+		});
+	}
 }

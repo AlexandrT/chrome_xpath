@@ -8,10 +8,8 @@ $(window).load(function() {
     chrome.extension.onConnect.addListener(function(port){
       port.onMessage.addListener(function(msg){
         console.log("message from content script");
-        console.log(msg); //msg = key:value
-        window.bgObj.fields() = msg;
-        //get xpath. set some type for message. if message considered this, set property for window.bgObj
-        // may be save all hash in window.bgOdj?
+        console.log(msg);
+        window.bgObj.fields[window.bgObj.activeField] = msg;
       });
     });
 
@@ -19,16 +17,20 @@ $(window).load(function() {
       pageParse: function() {
         chrome.tabs.executeScript(tabId, { code: "foo()" });
       },
-      xpath: ""
+
+      srv: chrome.storage.local.get("mk_news_srv", function(result) {
+        window.bgObj.srv = result;
+        console.log(result);
+      }),
+
+      fields: chrome.storage.local.get("mk_news_fields", function(result) {
+        window.bgObj.fields = result.mk_news_fields;
+        console.log(result);
+      }),
+
+      activeField: ""
     };
 
-    chrome.storage.local.get("mk_news_srv", function(result) {
-      window.bgObj.srv = result;
-    }),
-
-    chrome.storage.local.get("mk_news_fields", function(result) {
-      window.bgObj.fields = result;
-    })
 
     chrome.commands.onCommand.addListener(function(command) {
       console.log('Command:', command);
