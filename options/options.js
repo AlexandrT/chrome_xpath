@@ -14,6 +14,6 @@ function save_options() {
 }
 
 
-document.addEventListener('DOMContentLoaded', load_options("options"));
+document.addEventListener('DOMContentLoaded', function(){load_options("options")});
 $('#save').on('click', save_options);
 $('#add-field').on('click', function(){add_field("options")});

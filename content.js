@@ -8,25 +8,35 @@ function foo(){
   $("*").on('click', getXpath);
 }
 
-function getXpath(event) {
+function getXpath(event, element) {
   var attrForXpath = [];
-  var DOMelem = $(this);
-  var partXpath = DOMelem.attr("id");
-  if (partXpath != null) {
-    attrForXpath.push("//" + DOMelem.prop("tagName") + "[@id='" + partXpath + "']");
-  } else {
-    partXpath = DOMelem.attr("class");
+
+  function temp(event, element) {
+    var DOMelem = element;
+
+    var partXpath = DOMelem.attr("id");
+
     if (partXpath != null) {
-      attrForXpath.push("//" + DOMelem.prop("tagName") + "[@class='" + partXpath + "']");
-    // } else if (typeof DOMelem.parent != "undefined") {
-      // attrForXpath.push("//" + DOMelem.prop("tagName")); //учесть, что может быть несколько соседей с такими же тегами
-      // getXpath(DOMelem.parent());
+      attrForXpath.push("/" + DOMelem.prop("tagName") + "[@id='" + partXpath + "']");
     } else {
-      console.log("impossible parse");
+      partXpath = DOMelem.attr("class");
+      if (partXpath != null) {
+        attrForXpath.push("/" + DOMelem.prop("tagName") + "[@class='" + partXpath + "']");
+      } else if (DOMelem.parent().is(document)) {
+        console.log("already html");
+      } else {
+        attrForXpath.push("/" + DOMelem.prop("tagName") + "[" + (DOMelem.index() + 1) + "]"); //index() возвращает номер среди всех соседей или учитывает только с таким же tagName?
+        temp(event, DOMelem.parent());
+      }
     }
   }
+
+  var element = $(this);
+  temp(event, element);
+
   $("*").off('click', getXpath);
-  fullXpath = attrForXpath.reverse().join();
+  var fullXpath = attrForXpath.reverse().join();
+  fullXpath = fullXpath.replace(/,/g, "");
   console.log(fullXpath);
   console.log(Date.now());
   port.postMessage(fullXpath);
