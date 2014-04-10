@@ -1,0 +1,14 @@
+{
+  "name": "chrome_xpath",
+  "version": "0.0.1",
+  "description": "Chrome extension for getting element's xpath",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "components-jasmine": "~2.0.0",
+    "jquery": "~2.1.0"
+  }
+}
