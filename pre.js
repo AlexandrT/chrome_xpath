@@ -1,24 +1,22 @@
 function load_options(type) {
-	var loadFields;
 	chrome.storage.local.get("mk_news_fields", function(result) {
-		loadFields = result;
+		var loadFields = result;
 		if (typeof loadFields.mk_news_fields !== 'undefined') {
 			for (var i = 0; i < loadFields.mk_news_fields.length; i++) {
-	      add_element(type, loadFields.mk_news_fields[i]);
+	      add_element(type, loadFields.mk_news_fields[i], "");
 			}
 		}
 	});
 
-	var srv;
 	chrome.storage.local.get("mk_news_srv", function(result) {
-		srv = result;
+		var srv = result;
 		if (typeof srv.mk_news_srv !== 'undefined') {
 			$('#remote-srv').val(srv.mk_news_srv);
 		}
 	});
 }
 
-function add_element(type, spanValue) {
+function add_element(type, spanValue, inputValue) {
   var li = $("<li></li>").attr('id', spanValue).appendTo("#fields");
 
 	$("<span></span>") 
@@ -40,6 +38,7 @@ function add_element(type, spanValue) {
 
 		$("<input/>")
 			.attr('type', 'text')
+			.val(inputValue)
 		.appendTo(li);
 	}
 }
@@ -52,10 +51,9 @@ function init_fields() {
 		console.log(fields);
 
 		$.each(fields, function(key, value) {
-			var li = $("<li></li>").attr('id', key).appendTo("#fields");
+			add_element("popup", key, value)
+			/*var li = $("<li></li>").attr('id', key).appendTo("#fields");
 		
-			console.log('key "%s" value "%s"', key, value);
-
 			$("<span></span>") 
 				.html(key) 
 			.appendTo(li);
@@ -75,7 +73,7 @@ function init_fields() {
 				$("<input/>")
 					.attr('type', 'text')
 					.val(value)
-				.appendTo(li);
+				.appendTo(li);*/
 		});
 	}
 }

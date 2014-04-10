@@ -14,7 +14,7 @@ function add_field(type) {
 	}
 
 	if ($.inArray(fieldName, $('#fields span')) < 0) {
-		add_element(type, fieldName);
+		add_element(type, fieldName, "");
 	} else {
 		$('#status').html('Field with this name already exists');
 	}

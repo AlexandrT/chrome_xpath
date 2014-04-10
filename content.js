@@ -1,6 +1,5 @@
 var port = chrome.runtime.connect({name: "sendXpath"});
 port.onMessage.addListener(function(msg){
-  console.log("new message!");
   console.log(msg);
 })
 
@@ -35,9 +34,11 @@ function getXpath(event, element) {
   temp(event, element);
 
   $("*").off('click', getXpath);
-  var fullXpath = attrForXpath.reverse().join();
-  fullXpath = fullXpath.replace(/,/g, "");
+  var fullXpath = buildXpath(attrForXpath);
   console.log(fullXpath);
-  console.log(Date.now());
   port.postMessage(fullXpath);
+}
+
+function buildXpath(arrayOfParts) {
+  return arrayOfParts.reverse().join().replace(/,/g, "");
 }

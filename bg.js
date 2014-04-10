@@ -7,8 +7,6 @@ $(window).load(function() {
 
     chrome.extension.onConnect.addListener(function(port){
       port.onMessage.addListener(function(msg){
-        console.log("message from content script");
-        console.log(msg);
         window.bgObj.fields[window.bgObj.activeField] = msg;
       });
     });
@@ -20,12 +18,10 @@ $(window).load(function() {
 
       srv: chrome.storage.local.get("mk_news_srv", function(result) {
         window.bgObj.srv = result;
-        console.log(result);
       }),
 
       fields: chrome.storage.local.get("mk_news_fields", function(result) {
         window.bgObj.fields = result.mk_news_fields;
-        console.log(result);
       }),
 
       activeField: ""
@@ -33,12 +29,12 @@ $(window).load(function() {
 
 
     chrome.commands.onCommand.addListener(function(command) {
-      console.log('Command:', command);
       chrome.tabs.executeScript(tabId, { code: "foo()" })
     });
 
     chrome.storage.onChanged.addListener(function(changes, namespace) {
       for (key in changes) {
+        // если изменилось что-то в настройках, то обновлять window.bgObj и popup.html
         var storageChange = changes[key];
         console.log('storage key "%s" in namespace "%s" changed', key, namespace);
         console.log(storageChange.oldValue);
