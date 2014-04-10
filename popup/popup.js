@@ -33,14 +33,13 @@
 	xhr.send();
 }*/
 
-function parse(target) {
+function parse(event) {
 	var bg_wnd = chrome.extension.getBackgroundPage();
-	var result = bg_wnd.bgObj.pageParse();
-	var callerId = target.currentTarget.parentElement.id;
-	var targetInput = '#' + callerId + ' input';
-	$(targetInput).val(bg_wnd.bgObj.xpath);
+	bg_wnd.bgObj.activeField = event.target.parentElement.id;
+	
+	bg_wnd.bgObj.pageParse();
 }
 
-document.addEventListener('DOMContentLoaded', load_options("popup"));
+document.addEventListener('DOMContentLoaded', init_fields);
 $('#send').on('click', send);
 $('#add-field').on('click', function(){add_field("popup")});
