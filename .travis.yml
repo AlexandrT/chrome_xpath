@@ -4,5 +4,7 @@ node_js:
 install:
   - npm install -g bower
   - bower install
+  - cd $TRAVIS_BUILD_DIR
 script:
-  - prepare_tests.sh
+  - sh prepare_tests.sh
+  - phantomjs test/SpecRunner.html
