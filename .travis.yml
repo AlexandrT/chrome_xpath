@@ -7,4 +7,4 @@ install:
   - cd $TRAVIS_BUILD_DIR
 script:
   - sh prepare_tests.sh
-  - phantomjs test/SpecRunner.html
+  - phantomjs ./test/runTests.js
