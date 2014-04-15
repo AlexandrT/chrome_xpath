@@ -8,3 +8,5 @@ install:
 script:
   - sh prepare_tests.sh
   - phantomjs ./test/runTests.js
+after_script:
+  - echo $?
