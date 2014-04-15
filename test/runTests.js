@@ -1,4 +1,9 @@
 var page = require('webpage').create();
 page.open('../vendor/components-jasmine/SpecRunner.html', function(){
-	phantom.exit();
+	setTimeout(function(){
+		var content = page.evaluate(function() {
+			return window.body;
+		});
+		phantom.exit();
+	}, 20000);
 });
