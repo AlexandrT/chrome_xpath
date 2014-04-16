@@ -7,6 +7,14 @@ function foo(){
   $("*").on('click', getXpath);
 }
 
+function removeEvent() {
+  $("*").off('click', getXpath);
+}
+
+function buildXpath(arrayOfParts) {
+  return arrayOfParts.reverse().join().replace(/,/g, "");
+}
+
 function getXpath(event, element) {
   var attrForXpath = [];
 
@@ -33,12 +41,8 @@ function getXpath(event, element) {
   var element = $(this);
   temp(event, element);
 
-  $("*").off('click', getXpath);
+  removeEvent();
   var fullXpath = buildXpath(attrForXpath);
   console.log(fullXpath);
   port.postMessage(fullXpath);
-}
-
-function buildXpath(arrayOfParts) {
-  return arrayOfParts.reverse().join().replace(/,/g, "");
 }

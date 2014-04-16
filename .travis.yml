@@ -7,6 +7,4 @@ install:
   - cd $TRAVIS_BUILD_DIR
 script:
   - sh prepare_tests.sh
-  - phantomjs ./test/runTests.js 'file://' + $TRAVIS_BUILD_DIR + 'vendor/components-jasmine/SpecRunner.html'
-after_script:
-  - echo $?
+  - phantomjs ./test/runTests.js file://$TRAVIS_BUILD_DIR/vendor/components-jasmine/SpecRunner.html

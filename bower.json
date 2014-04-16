@@ -8,6 +8,7 @@
     "bower_components"
   ],
   "dependencies": {
-    "components-jasmine": "~2.0.0"
+    "components-jasmine": "~2.0.0",
+    "jasmine-jquery": "~2.0.0"
   }
 }

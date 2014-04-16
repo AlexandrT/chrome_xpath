@@ -12,8 +12,15 @@ page.open(address, function(){
 	page.injectJs('../lib/jquery-2.1.0.min.js');
 		
 	var content = page.evaluate(function() {
-		return $('html').html();
+		return $('.bar.failed').html();
 	});
 	console.log(content);
-	phantom.exit();
+
+	if (content === null) {
+		console.log("0");
+		phantom.exit();
+	} else {
+		console.log("1");
+		phantom.exit(1);
+	}
 });
