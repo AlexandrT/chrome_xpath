@@ -2,9 +2,9 @@ language: node_js
 node_js:
   - "0.10"
 install:
+  - npm install grunt-cli -g
   - npm install -g bower
   - bower install
-  - cd $TRAVIS_BUILD_DIR
+  - npm install
 script:
-  - sh prepare_tests.sh
-  - phantomjs ./test/runTests.js file://$TRAVIS_BUILD_DIR/vendor/components-jasmine/SpecRunner.html
+  - grunt
