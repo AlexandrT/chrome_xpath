@@ -2,11 +2,16 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 		vendor: grunt.file.readJSON('.bowerrc'),
-		bower: grunt.file.readJSON('bower.json'),
+		//bower: grunt.file.readJSON('bower.json'),
 
 		jasmine: {
 			pivotal: {
-				src: 'content.js',
+				src: [
+					'content.js',
+					'lib/*.js',
+					'options/*.js',
+					'popup/*.js'
+				],
 				options: {
 					vendor: [
 						'lib/jquery-2.1.0.min.js',
