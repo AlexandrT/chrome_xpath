@@ -1,4 +1,4 @@
-$(window).load(function() {
+// $(window).load(function() {
 
   // chrome.tabs.onActivated.addListener
   chrome.tabs.onUpdated.addListener(function(tabId, tabInfo, tab){
@@ -13,7 +13,11 @@ $(window).load(function() {
 
     window.bgObj = {
       pageParse: function() {
-        chrome.tabs.executeScript(tabId, { code: "foo()" });
+        var tabUrl = tab.url;
+        if (tabUrl.indexOf("chrome-devtools://") == -1) {
+          console.log(tabId); 
+          chrome.tabs.executeScript(tabId, { code: "foo()" });
+        }
       },
 
       srv: chrome.storage.local.get("mk_news_srv", function(result) {
@@ -42,4 +46,4 @@ $(window).load(function() {
       }
     });
   })
-})
+// })
